@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Residuos - Base Marte Alpha</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/sankey.js"></script>
+    <script src="https://code.highcharts.com/modules/organization.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-mars">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-globe2 me-2"></i>
+                <strong>MARTE ALPHA</strong> - Sistema de Gestión de Residuos
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#dashboard">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#mapa">
+                            <i class="bi bi-map"></i> Mapa Base
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inventario">
+                            <i class="bi bi-box-seam"></i> Inventario
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid py-4">
+        
+        <!-- Status Bar -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info d-flex align-items-center" role="alert">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <div>
+                        <strong>Estado del Sistema:</strong> Operacional | 
+                        <strong>Última actualización:</strong> <span id="lastUpdate"></span> | 
+                        <strong>Capacidad de almacenamiento:</strong> <span id="storageCapacity">73%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card bg-gradient-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-subtitle mb-2">Residuos Totales</h6>
+                                <h2 class="card-title mb-0">12,600 kg</h2>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="bi bi-trash3"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card bg-gradient-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-subtitle mb-2">Material Reciclado</h6>
+                                <h2 class="card-title mb-0">7,560 kg</h2>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="bi bi-recycle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card bg-gradient-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-subtitle mb-2">Puntos de Recolección</h6>
+                                <h2 class="card-title mb-0">12</h2>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card bg-gradient-danger text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-subtitle mb-2">Eficiencia</h6>
+                                <h2 class="card-title mb-0">87.3%</h2>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Row -->
+        <div class="row">
+            <!-- Left Column: Mars Base Map -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-mars text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-map me-2"></i>
+                            Mapa de la Base Marciana
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="marsBaseMap" class="mars-map-container">
+                            <!-- Map will be rendered here -->
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            <i class="bi bi-circle-fill text-danger me-1"></i> Alta acumulación
+                            <i class="bi bi-circle-fill text-warning ms-3 me-1"></i> Media acumulación
+                            <i class="bi bi-circle-fill text-success ms-3 me-1"></i> Baja acumulación
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Materials Dashboard -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-mars text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-bar-chart me-2"></i>
+                            Dashboard de Materiales
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="materialsChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sankey Diagram Row -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-mars text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-arrow-left-right me-2"></i>
+                            Ciclo de Reciclaje - Diagrama de Flujo
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="sankeyChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory and Assignment Interface -->
+        <div class="row">
+            <div class="col-lg-8 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-mars text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Inventario de Materiales Reciclados
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="inventoryTable">
+                                <thead>
+                                    <tr>
+                                        <th>Material</th>
+                                        <th>Cantidad (kg)</th>
+                                        <th>Pureza (%)</th>
+                                        <th>Aplicaciones Posibles</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignment Panel -->
+            <div class="col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-mars text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-gear me-2"></i>
+                            Asignación de Materiales
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="assignmentForm">
+                            <div class="mb-3">
+                                <label for="materialSelect" class="form-label">Material</label>
+                                <select class="form-select" id="materialSelect" required>
+                                    <option value="">Seleccionar material...</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="quantityInput" class="form-label">Cantidad (kg)</label>
+                                <input type="number" class="form-control" id="quantityInput" 
+                                       placeholder="0.00" step="0.01" min="0" required>
+                                <small class="text-muted">Disponible: <span id="availableQuantity">0</span> kg</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="purposeSelect" class="form-label">Propósito</label>
+                                <select class="form-select" id="purposeSelect" required>
+                                    <option value="">Seleccionar propósito...</option>
+                                    <option value="construccion">Construcción de estructuras</option>
+                                    <option value="herramientas">Fabricación de herramientas</option>
+                                    <option value="componentes">Componentes electrónicos</option>
+                                    <option value="combustible">Producción de combustible</option>
+                                    <option value="agua">Recuperación de agua</option>
+                                    <option value="oxigeno">Generación de oxígeno</option>
+                                    <option value="alimentos">Cultivo de alimentos</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="notesInput" class="form-label">Notas</label>
+                                <textarea class="form-control" id="notesInput" rows="3" 
+                                          placeholder="Información adicional..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-check-circle me-2"></i>
+                                Asignar Material
+                            </button>
+                        </form>
+                        
+                        <div id="assignmentAlert" class="mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">
+            <i class="bi bi-rocket-takeoff me-2"></i>
+            Base Marte Alpha - Sistema de Gestión de Residuos v1.0 | 
+            Sol 1247 | Coordenadas: 18.65°N 77.58°E
+        </p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>

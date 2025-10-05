@@ -1,0 +1,266 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+}
+
+/* Mars Theme Colors */
+.bg-mars {
+    background: linear-gradient(135deg, #c1440e 0%, #8b2500 100%);
+}
+
+/* Navbar */
+.navbar-brand {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+/* Gradient Cards */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.bg-gradient-danger {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* Stat Cards */
+.stat-card {
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    opacity: 0.7;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+.shadow-sm {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Mars Base Map Container */
+.mars-map-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    background: linear-gradient(135deg, #3d2314 0%, #6b4423 50%, #3d2314 100%);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Mars Base Map SVG */
+#marsBaseMapSVG {
+    width: 100%;
+    height: 100%;
+}
+
+/* Mars Base Structures */
+.base-structure {
+    fill: #4a5568;
+    stroke: #718096;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.base-structure:hover {
+    fill: #5a6678;
+    stroke: #cbd5e0;
+    cursor: pointer;
+}
+
+/* Waste Collection Points */
+.waste-point {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.waste-point:hover {
+    transform: scale(1.2);
+}
+
+.waste-point-high {
+    fill: #dc2626;
+    filter: drop-shadow(0 0 8px #dc2626);
+    animation: pulse-red 2s infinite;
+}
+
+.waste-point-medium {
+    fill: #f59e0b;
+    filter: drop-shadow(0 0 6px #f59e0b);
+    animation: pulse-yellow 2s infinite;
+}
+
+.waste-point-low {
+    fill: #10b981;
+    filter: drop-shadow(0 0 4px #10b981);
+}
+
+/* Pulse Animations */
+@keyframes pulse-red {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes pulse-yellow {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Connection Lines */
+.connection-line {
+    stroke: #4a5568;
+    stroke-width: 1;
+    stroke-dasharray: 5, 5;
+    opacity: 0.4;
+}
+
+/* Labels */
+.map-label {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 12px;
+    fill: #e2e8f0;
+    text-anchor: middle;
+    pointer-events: none;
+}
+
+/* Tooltip */
+.map-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.map-tooltip.show {
+    display: block;
+}
+
+/* Table Styles */
+.table {
+    color: #2d3748;
+}
+
+.table thead {
+    background: linear-gradient(135deg, #c1440e 0%, #8b2500 100%);
+    color: white;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(193, 68, 14, 0.1);
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, #c1440e 0%, #8b2500 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #8b2500 0%, #c1440e 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(193, 68, 14, 0.4);
+}
+
+.btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+/* Form Controls */
+.form-control:focus,
+.form-select:focus {
+    border-color: #c1440e;
+    box-shadow: 0 0 0 0.2rem rgba(193, 68, 14, 0.25);
+}
+
+/* Alert */
+.alert-info {
+    background-color: #e0f2fe;
+    border-color: #bae6fd;
+    color: #075985;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .mars-map-container {
+        height: 400px;
+    }
+    
+    .stat-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .stat-icon {
+        font-size: 2rem;
+    }
+}
+
+/* Highcharts Container */
+#materialsChart,
+#sankeyChart {
+    min-height: 400px;
+}
+
+/* Loading Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
